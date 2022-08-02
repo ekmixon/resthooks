@@ -48,8 +48,7 @@ def post(slug):
     """
     Render a single post to the screen by slug `post` or 404
     """
-    p = pages.get(slug)
-    if p:
+    if p := pages.get(slug):
         context = GLOBAL_CONTEXT.copy()
         context.update(p.meta)
         md = render_markdown(render_template_string(p.body, **context))
@@ -75,7 +74,7 @@ def smart_truncate(content, length=100, suffix='...'):
     if len(content) <= length:
         return content
     else:
-        return ' '.join(content[:length+1].split(' ')[0:-1]) + suffix
+        return ' '.join(content[:length+1].split(' ')[:-1]) + suffix
 
 def render_markdown(md):
     class CustomRenderer(misaka.HtmlRenderer, misaka.SmartyPants):
